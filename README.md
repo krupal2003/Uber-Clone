@@ -105,10 +105,10 @@ Authenticates an existing user and returns a JWT token upon successful login.
 
 Send a JSON object with the following fields:
 
-| Field    | Type   | Required | Description                              |
-|----------|--------|----------|------------------------------------------|
-| `email`  | String | Yes      | User's email address (must be valid)     |
-| `password` | String | Yes    | User's password (at least 6 characters)  |
+| Field      | Type   | Required | Description                              |
+|------------|--------|----------|------------------------------------------|
+| `email`    | String | Yes      | User's email address (must be valid)     |
+| `password` | String | Yes      | User's password (at least 6 characters)  |
 
 **Example:**
 ```json
@@ -181,8 +181,72 @@ Send a JSON object with the following fields:
 
 ---
 
+# User Profile API Documentation
+
+## Endpoint
+
+`GET /users/profile`
+
+## Description
+
+Fetches the profile of the authenticated user.  
+This endpoint is protected by middleware which validates the JWT token sent in the request headers (or cookies).
+
+> **Note:** Ensure you include the token in your request's `Authorization` header as `Bearer <token>` or via cookies.
+
+---
+
+## Middleware
+
+- **authUser:** Validates the JWT token and attaches the authenticated user to the request.  
+  If the token is missing or invalid, the middleware returns a `401 Unauthorized` response.
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "_id": "user_id",
+      "fullName": {
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "email": "john.doe@example.com",
+      // ...other user fields, excluding sensitive information like password
+    }
+    ```
+
+### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "error": "Unauthorized access, no token provided" 
+      // or
+      "error": "Unauthorized access, invalid token"
+    }
+    ```
+
+### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
 ## Notes
 
 - The password is securely hashed before storing.
-- The responses include a JWT token for authentication.
+- The responses include a JWT token for authentication (where applicable).
 - The password field is never returned in the responses.
