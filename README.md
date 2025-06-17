@@ -216,7 +216,7 @@ This endpoint is protected by middleware which validates the JWT token sent in t
         "firstName": "John",
         "lastName": "Doe"
       },
-      "email": "john.doe@example.com",
+      "email": "john.doe@example.com"
       // ...other user fields, excluding sensitive information like password
     }
     ```
@@ -245,8 +245,169 @@ This endpoint is protected by middleware which validates the JWT token sent in t
 
 ---
 
+# User Logout API Documentation
+
+## Endpoint
+
+`GET /api/user/logout`
+
+## Description
+
+Logs out the authenticated user by clearing the authentication cookie and blacklisting the token.  
+This endpoint is protected by middleware and requires a valid JWT token.
+
+---
+
+## Middleware
+
+- **authUser:** Validates the JWT token and attaches the authenticated user to the request.  
+  If the token is missing, invalid, or blacklisted, the middleware returns a `401 Unauthorized` response.
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "message": "Logout successful"
+    }
+    ```
+
+### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "error": "Unauthorized access, no token provided"
+      // or
+      "error": "Unauthorized access, token is blacklisted"
+      // or
+      "error": "Unauthorized access, invalid token"
+    }
+    ```
+
+### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
+# Captain Registration API Documentation
+
+## Endpoint
+
+`POST /api/captain/register`
+
+## Description
+
+Registers a new captain in the system along with their vehicle details.
+
+---
+
+## Request Body
+
+Send a JSON object with the following fields:
+
+| Field                           | Type   | Required | Description                                                                       |
+|---------------------------------|--------|----------|-----------------------------------------------------------------------------------|
+| `fullName.firstName`            | String | Yes      | Captain's first name (min 3 characters)                                           |
+| `fullName.lastName`             | String | Yes      | Captain's last name (min 3 characters)                                            |
+| `email`                         | String | Yes      | Captain's email address (must be valid)                                           |
+| `password`                      | String | Yes      | Captain's password (at least 6 characters)                                        |
+| `vehicle.color`                 | String | Yes      | Color of the vehicle (min 3 characters)                                           |
+| `vehicle.vehicleNumber`         | String | Yes      | Vehicle registration number                                                       |
+| `vehicle.vehicleType`           | String | Yes      | Type of the vehicle (allowed values: `car`, `bike`, `auto`)                       |
+| `vehicle.capacity`              | Number | Yes      | Number of passengers the vehicle can accommodate (minimum value 1)                  |
+
+**Example:**
+```json
+{
+  "fullName": {
+    "firstName": "Alex",
+    "lastName": "Smith"
+  },
+  "email": "alex.smith@example.com",
+  "password": "securePass123",
+  "vehicle": {
+    "color": "Blue",
+    "vehicleNumber": "XYZ1234",
+    "vehicleType": "car",
+    "capacity": 4
+  }
+}
+```
+
+---
+
+## Responses
+
+### Success
+
+- **Status Code:** `201 Created`
+- **Body:**
+    ```json
+    {
+      "message": "Captain created successfully",
+      "token": "<jwt_token>",
+      "captain": {
+        "_id": "captain_id",
+        "fullName": {
+          "firstName": "Alex",
+          "lastName": "Smith"
+        },
+        "email": "alex.smith@example.com",
+        "vehicle": {
+          "color": "Blue",
+          "vehicleNumber": "XYZ1234",
+          "vehicleType": "car",
+          "capacity": 4
+        }
+        // ...other captain fields (sensitive information excluded)
+      }
+    }
+    ```
+
+### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Please enter a valid email address",
+          "param": "email",
+          "location": "body"
+        }
+        // ...other validation errors
+      ]
+    }
+    ```
+
+### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
 ## Notes
 
 - The password is securely hashed before storing.
-- The responses include a JWT token for authentication (where applicable).
-- The password field is never returned in the responses.
+- The route returns a JWT token used for further authentication.

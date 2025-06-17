@@ -1,6 +1,8 @@
 const userModel=require('../models/userModel');
 const {validationResult} =require('express-validator');
 const userService=require('../services/user.service');
+const blacklistToken=require('../models/blacklistToken.model');
+const blacklistTokenModel = require('../models/blacklistToken.model');
 
 module.exports.registerUser=async (req, res,next) => {
     // Validate request body
@@ -11,6 +13,13 @@ module.exports.registerUser=async (req, res,next) => {
     }
 
     const {fullName,email,password} = req.body;
+
+    const isUserExists = await userModel.find({email: email }); 
+    if(isUserExists){
+        return res.status(400).json({ error: "User with this email already exists" });
+    }
+    
+    // Hash the password
     const hashPassword=await userModel.hashPassword(password);
 
     try{
@@ -56,4 +65,18 @@ module.exports.loginUser=async (req, res,next) => {
 
 module.exports.getUserProfile=async(req,res,next)=>{
     res.status(200).json(req.user)
+}
+
+module.exports.logoutUser=async (req, res, next) => {
+    try {
+        res.clearCookie('token'); // Clear the cookie
+
+        const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+        await blacklistTokenModel.create({ token });
+        
+        res.status(200).json({ message: 'Logout successful' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
 }
