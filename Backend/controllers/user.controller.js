@@ -73,7 +73,6 @@ module.exports.logoutUser=async (req, res, next) => {
         await blacklistTokenModel.create({ token });
 
         res.clearCookie('token'); // Clear the cookie
-        res.clearCookie('token'); // Clear the cookie
         res.status(200).json({ message: 'Logout successful' });
     } catch (err) {
         console.error(err);

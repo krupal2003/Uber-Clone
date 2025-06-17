@@ -1,19 +1,21 @@
 # Uber-Clone
-It is a project of clone of Uber.
-
-# User Registration API Documentation
-
-## Endpoint
-
-`POST /api/user/register`
-
-## Description
-
-Registers a new user in the system.
+It is a project of a clone of Uber.
 
 ---
 
-## Request Body
+# User Routes Documentation
+
+## 1. User Registration
+
+### Endpoint
+
+`POST /api/user/register`
+
+### Description
+
+Registers a new user in the system.
+
+### Request Body
 
 Send a JSON object with the following fields:
 
@@ -36,11 +38,9 @@ Send a JSON object with the following fields:
 }
 ```
 
----
+### Responses
 
-## Responses
-
-### Success
+#### Success
 
 - **Status Code:** `201 Created`
 - **Body:**
@@ -60,7 +60,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Validation Error
+#### Validation Error
 
 - **Status Code:** `400 Bad Request`
 - **Body:**
@@ -77,7 +77,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Server Error
+#### Server Error
 
 - **Status Code:** `500 Internal Server Error`
 - **Body:**
@@ -89,19 +89,17 @@ Send a JSON object with the following fields:
 
 ---
 
-# User Login API Documentation
+## 2. User Login
 
-## Endpoint
+### Endpoint
 
 `POST /api/user/login`
 
-## Description
+### Description
 
 Authenticates an existing user and returns a JWT token upon successful login.
 
----
-
-## Request Body
+### Request Body
 
 Send a JSON object with the following fields:
 
@@ -118,11 +116,9 @@ Send a JSON object with the following fields:
 }
 ```
 
----
+### Responses
 
-## Responses
-
-### Success
+#### Success
 
 - **Status Code:** `200 OK`
 - **Body:**
@@ -142,7 +138,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Validation Error
+#### Validation Error
 
 - **Status Code:** `400 Bad Request`
 - **Body:**
@@ -159,7 +155,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Unauthorized
+#### Unauthorized
 
 - **Status Code:** `401 Unauthorized`
 - **Body:**
@@ -169,7 +165,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Server Error
+#### Server Error
 
 - **Status Code:** `500 Internal Server Error`
 - **Body:**
@@ -181,31 +177,27 @@ Send a JSON object with the following fields:
 
 ---
 
-# User Profile API Documentation
+## 3. User Profile
 
-## Endpoint
+### Endpoint
 
 `GET /users/profile`
 
-## Description
+### Description
 
 Fetches the profile of the authenticated user.  
-This endpoint is protected by middleware which validates the JWT token sent in the request headers (or cookies).
+This endpoint is protected by middleware that validates the JWT token sent in the request headers or cookies.
 
-> **Note:** Ensure you include the token in your request's `Authorization` header as `Bearer <token>` or via cookies.
+> **Note:** Include the token in the request's `Authorization` header as `Bearer <token>` or via cookies.
 
----
-
-## Middleware
+### Middleware
 
 - **authUser:** Validates the JWT token and attaches the authenticated user to the request.  
   If the token is missing or invalid, the middleware returns a `401 Unauthorized` response.
 
----
+### Responses
 
-## Responses
-
-### Success
+#### Success
 
 - **Status Code:** `200 OK`
 - **Body:**
@@ -221,7 +213,7 @@ This endpoint is protected by middleware which validates the JWT token sent in t
     }
     ```
 
-### Unauthorized
+#### Unauthorized
 
 - **Status Code:** `401 Unauthorized`
 - **Body:**
@@ -233,7 +225,7 @@ This endpoint is protected by middleware which validates the JWT token sent in t
     }
     ```
 
-### Server Error
+#### Server Error
 
 - **Status Code:** `500 Internal Server Error`
 - **Body:**
@@ -245,29 +237,25 @@ This endpoint is protected by middleware which validates the JWT token sent in t
 
 ---
 
-# User Logout API Documentation
+## 4. User Logout
 
-## Endpoint
+### Endpoint
 
 `GET /api/user/logout`
 
-## Description
+### Description
 
 Logs out the authenticated user by clearing the authentication cookie and blacklisting the token.  
 This endpoint is protected by middleware and requires a valid JWT token.
 
----
-
-## Middleware
+### Middleware
 
 - **authUser:** Validates the JWT token and attaches the authenticated user to the request.  
   If the token is missing, invalid, or blacklisted, the middleware returns a `401 Unauthorized` response.
 
----
+### Responses
 
-## Responses
-
-### Success
+#### Success
 
 - **Status Code:** `200 OK`
 - **Body:**
@@ -277,7 +265,7 @@ This endpoint is protected by middleware and requires a valid JWT token.
     }
     ```
 
-### Unauthorized
+#### Unauthorized
 
 - **Status Code:** `401 Unauthorized`
 - **Body:**
@@ -291,7 +279,7 @@ This endpoint is protected by middleware and requires a valid JWT token.
     }
     ```
 
-### Server Error
+#### Server Error
 
 - **Status Code:** `500 Internal Server Error`
 - **Body:**
@@ -303,19 +291,19 @@ This endpoint is protected by middleware and requires a valid JWT token.
 
 ---
 
-# Captain Registration API Documentation
+# Captain Routes Documentation
 
-## Endpoint
+## 1. Captain Registration
+
+### Endpoint
 
 `POST /api/captain/register`
 
-## Description
+### Description
 
 Registers a new captain in the system along with their vehicle details.
 
----
-
-## Request Body
+### Request Body
 
 Send a JSON object with the following fields:
 
@@ -348,11 +336,9 @@ Send a JSON object with the following fields:
 }
 ```
 
----
+### Responses
 
-## Responses
-
-### Success
+#### Success
 
 - **Status Code:** `201 Created`
 - **Body:**
@@ -378,7 +364,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Validation Error
+#### Validation Error
 
 - **Status Code:** `400 Bad Request`
 - **Body:**
@@ -395,7 +381,7 @@ Send a JSON object with the following fields:
     }
     ```
 
-### Server Error
+#### Server Error
 
 - **Status Code:** `500 Internal Server Error`
 - **Body:**
@@ -407,7 +393,221 @@ Send a JSON object with the following fields:
 
 ---
 
-## Notes
+## 2. Captain Login
 
-- The password is securely hashed before storing.
-- The route returns a JWT token used for further authentication.
+### Endpoint
+
+`POST /api/captain/login`
+
+### Description
+
+Authenticates an existing captain and returns a JWT token upon successful login.
+
+### Request Body
+
+Send a JSON object with the following fields:
+
+| Field      | Type   | Required | Description                              |
+|------------|--------|----------|------------------------------------------|
+| `email`    | String | Yes      | Captain's email address (must be valid)  |
+| `password` | String | Yes      | Captain's password (at least 6 characters)  |
+
+**Example:**
+```json
+{
+  "email": "alex.smith@example.com",
+  "password": "securePass123"
+}
+```
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "message": "Login successful",
+      "token": "<jwt_token>",
+      "captain": {
+        "_id": "captain_id",
+        "fullName": {
+          "firstName": "Alex",
+          "lastName": "Smith"
+        },
+        "email": "alex.smith@example.com",
+        "vehicle": {
+          "color": "Blue",
+          "vehicleNumber": "XYZ1234",
+          "vehicleType": "car",
+          "capacity": 4
+        }
+        // ...other captain fields (sensitive information excluded)
+      }
+    }
+    ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Please enter a valid email address",
+          "param": "email",
+          "location": "body"
+        }
+        // ...other validation errors
+      ]
+    }
+    ```
+
+#### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "error": "Invalid credentials"
+    }
+    ```
+
+#### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
+## 3. Captain Profile
+
+### Endpoint
+
+`GET /api/captain/profile`
+
+### Description
+
+Fetches the profile of the authenticated captain.  
+This endpoint is protected by middleware that validates the JWT token.
+
+### Middleware
+
+- **authCaptain:** Validates the JWT token and attaches the authenticated captain to the request.  
+  If the token is missing or invalid, it returns a `401 Unauthorized` response.
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "_id": "captain_id",
+      "fullName": {
+        "firstName": "Alex",
+        "lastName": "Smith"
+      },
+      "email": "alex.smith@example.com",
+      "vehicle": {
+        "color": "Blue",
+        "vehicleNumber": "XYZ1234",
+        "vehicleType": "car",
+        "capacity": 4
+      }
+      // ...other captain fields, excluding sensitive information like password
+    }
+    ```
+
+#### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "error": "Unauthorized access, no token provided" 
+      // or 
+      "error": "Unauthorized access, invalid token"
+    }
+    ```
+
+#### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
+## 4. Captain Logout
+
+### Endpoint
+
+`GET /api/captain/logout`
+
+### Description
+
+Logs out the authenticated captain by clearing the authentication cookie and blacklisting the token.  
+This endpoint is protected by middleware and requires a valid JWT token.
+
+### Middleware
+
+- **authCaptain:** Validates the JWT token and attaches the authenticated captain to the request.  
+  If the token is missing, invalid, or blacklisted, it returns a `401 Unauthorized` response.
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+    ```json
+    {
+      "message": "Logout successful"
+    }
+    ```
+
+#### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+    ```json
+    {
+      "error": "Unauthorized access, no token provided"
+      // or
+      "error": "Unauthorized access, token is blacklisted"
+      // or
+      "error": "Unauthorized access, invalid token"
+    }
+    ```
+
+#### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+    ```json
+    {
+      "error": "Server error"
+    }
+    ```
+
+---
+
+# Notes
+
+- All passwords are securely hashed before storing.
+- JWT tokens are returned upon successful login/registration and are required for accessing protected routes.
+- In protected routes, ensure that the JWT token is sent via the `Authorization` header (`Bearer <token>`) or in a cookie.
+- Tokens can be blacklisted upon logout to prevent further use until they expire.

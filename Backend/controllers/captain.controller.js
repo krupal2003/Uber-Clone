@@ -1,6 +1,7 @@
 const captainModel=require('../models/captain.model');
 const captainService=require('../services/captain.service');
 const {validationResult} = require('express-validator');
+const blacklistTokenModel = require('../models/blacklistToken.model');
 
 module.exports.registerCaptain  = async (req,res) => {
 
@@ -62,5 +63,27 @@ module.exports.loginCaptain = async (req, res) => {
         res.status(200).json({message: "Login successful", token, captain});
     }catch(err){
             res.status(500).json({ error: 'Server error' });
+    }
+}
+
+module.exports.getCaptainProfile=async (req,res)=>{
+    try{
+        res.status(200).json(req.captain)
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error:"server error"})
+    }
+}
+
+module.exports.logoutCaptain = async (req, res) => {
+    try{
+        const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+        await blacklistTokenModel.create({ token });
+
+        res.clearCookie('token'); // Clear the cookie
+        res.status(200).json({ message: 'Logout successful' });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({error: 'Server error'});
     }
 }
