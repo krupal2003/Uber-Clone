@@ -38,3 +38,29 @@ module.exports.registerCaptain  = async (req,res) => {
 
 
 }
+
+module.exports.loginCaptain = async (req, res) => { 
+
+    const errors=validationResult(req);
+
+    if(!errors.isEmpty()){
+        res.status(400).json({errors: errors.array()});
+    }
+    const {email, password} = req.body;
+
+    try{
+        const captain = await captainModel.findOne({email}).select('+password');
+        if(!captain){
+            return res.status(401).json({error: 'Invalid credentials'});
+        }
+        const isMatch = await captain.comparePassword(password);
+        if(!isMatch){
+            return res.status(401).json({error: 'Invalid credentials'});
+        }
+        const token = captain.generateAuthToken();
+        res.cookie('token', token) ;
+        res.status(200).json({message: "Login successful", token, captain});
+    }catch(err){
+            res.status(500).json({ error: 'Server error' });
+    }
+}
