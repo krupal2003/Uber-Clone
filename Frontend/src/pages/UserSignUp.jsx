@@ -1,31 +1,44 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { DataUserContext } from '../../context/UserContext';
 
 const UserSignUp = () => {
+  
+  const navigate= useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("");
-  const [userdata, setuserData] = useState({});
 
-  const submithandler = (e) => {
+  const {user,setUser}= useContext(DataUserContext);
+
+  const submithandler = async(e) => {
     e.preventDefault();
-    setuserData(
-      { fullName:{
-          firstName: firstName, 
-          lastName: lastName
-        }, 
-        email: email, 
-        password: password 
-      });
+    const newUser={
+      fullName:{
+        firstName:firstName,
+        lastName:lastName
+      },
+      email:email,
+      password:password
+    }
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser);
+
+    if(response.status===201){
+      alert("User Created Successfully");
+      localStorage.setItem("token", response.data.token);
+      const user=response.data.user;
+      setUser(user);
+      navigate('/home');
+    }
     
-    // Here you can add the logic to handle signup, like sending a request to your backend  
     setEmail("");
     setPassword("");  
     setFirstName("");
     setLastName("");  
-  }
+  } 
 
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>

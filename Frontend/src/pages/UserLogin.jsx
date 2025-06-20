@@ -1,17 +1,39 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { DataUserContext } from '../../context/UserContext';
 
 const UserLogin = () => {
 
+  const navigation=useNavigate();
+  const {user,setUser}=useContext(DataUserContext);
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [userdata, setuserData] = useState({})
+ 
 
-  const submithandler = (e) => {
+  const submithandler = async(e) => {
     e.preventDefault();
     
-    setuserData({ email:email, password:password });
-    // Here you can add the logic to handle login, like sending a request to your backend
+    const cridentials = {
+      email: email,
+      password: password  
+    }
+
+    const response= await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, cridentials)
+
+    if(response.status===200){
+      alert("Login Successfully");
+      const user=response.data.user;
+
+      localStorage.setItem("token", response.data.token);
+      setUser(user);
+      
+      navigation('/home');
+    }
+    else{
+      console.log(response);
+    }
     setEmail("");
     setPassword("");
   }
