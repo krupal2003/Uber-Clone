@@ -1,41 +1,41 @@
+import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { DataUserContext } from '../../context/UserContext';
-import axios from 'axios';
+import { DataCaptainContext } from '../../context/CaptainContext';
 
-const ProtectedRoute = ({ children }) => {
+const CaptainProtectedRoute = ({ children }) => {
 
     const navigate = useNavigate();
 
-    const [isLoading, setIsLoading] = useState(true)
-    const { user, setUser } = useContext(DataUserContext)
+    const [isLoading, setIsLoading] = useState(true);
+    const { captain, setCaptain } = useContext(DataCaptainContext);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            // alert("You are not authorized to view this page. Please login first.");
             navigate('/login');
         }
 
-        axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
+        axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         }).then((response) => {
             if (response.status === 200) {
-                setUser(response.data.captain);
+                setCaptain(response.data.captain);
                 setIsLoading(false);
             } else {
-                navigate('/login');
+                navigate('/captain-login');
             }
         }).catch((error) => {
             localStorage.removeItem('token'); // Clear token if there's an error
-            navigate('/login');
+            navigate('/captain-login');
         });
     }, [navigate]);
 
-    if (isLoading) return <div>Loading...</div>;
 
+
+    if (isLoading) return <div>Loading...</div>;
 
     return (
         <>
@@ -44,4 +44,4 @@ const ProtectedRoute = ({ children }) => {
     )
 }
 
-export default ProtectedRoute
+export default CaptainProtectedRoute

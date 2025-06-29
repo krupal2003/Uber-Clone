@@ -7,6 +7,7 @@ const cors=require("cors");
 const connectDb=require('./db/db');
 const userRoute=require('./routes/user.route');
 const captainRoute=require('./routes/captain.route');
+const mapsRoute=require('./routes/maps.routes')
 
 connectDb();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use('/users',userRoute)
 app.use('/captains',captainRoute)
+app.use('/maps',mapsRoute)
 
 
 module.exports=app;
