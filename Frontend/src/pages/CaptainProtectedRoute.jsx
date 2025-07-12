@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { DataCaptainContext } from '../../context/CaptainContext';
+import { DataCaptainContext } from '../context/CaptainContext';
 
 const CaptainProtectedRoute = ({ children }) => {
 
@@ -22,7 +22,7 @@ const CaptainProtectedRoute = ({ children }) => {
             }
         }).then((response) => {
             if (response.status === 200) {
-                setCaptain(response.data.captain);
+                setCaptain(response.data);
                 setIsLoading(false);
             } else {
                 navigate('/captain-login');

@@ -11,21 +11,21 @@ const LookingForDriver = (props) => {
                     <div className='flex items-center gap-6 border-b border-gray-600 px-1 py-2'>
                         <h4 className='text-lg'><i className="ri-map-pin-range-fill"></i></h4>
                         <div className='gap-1'>
-                            <h3 className='text-base font-medium'>562/11-A</h3>
-                            <p className='text-sm text-gray-600'>Kankariya Lake, Maninagar</p>
+                            <h3 className='text-base font-medium'>{props.pickup}</h3>
+                            <p className='text-sm text-gray-600'>{props.pickupDescription}</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-6 border-b border-gray-600 px-1 py-2'>
                         <h4 className='text-lg'><i className="ri-map-pin-2-fill"></i></h4>
                         <div className='gap-1'>
-                            <h3 className='text-base font-medium'>592/12-B</h3>
-                            <p className='text-sm text-gray-600'>Old high court, Navarangpura</p>
+                            <h3 className='text-base font-medium'>{props.destination}</h3>
+                            <p className='text-sm text-gray-600'>{props.destinationDescription}</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-6  px-1 py-2'>
                         <h4 className='text-lg'><i className="ri-bank-card-fill"></i></h4>
                         <div className='gap-1'>
-                            <h3 className='text-base font-medium'>₹ 199.99</h3>
+                            <h3 className='text-base font-medium'>₹ {props.fare[props.vehicalType]}</h3>
                             <p className='text-sm text-gray-600'>Cash</p>
                         </div>
                     </div>

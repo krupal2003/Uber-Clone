@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { DataUserContext } from '../../context/UserContext';
+import { DataUserContext } from '../context/UserContext';
 import axios from 'axios';
 
 const ProtectedRoute = ({ children }) => {

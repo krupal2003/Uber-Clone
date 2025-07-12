@@ -5,7 +5,8 @@ const VehicalPannel = (props) => {
         <div>
             <h5 onClick={() => { props.setVehicalPannleOpen(false) }} className='absolute top-1 w-[90%] text-center'><i className='ri-arrow-down-wide-fill w-8 text-3xl text-gray-400'></i></h5>
             <h2 className='text-xl font-semibold mb-3 mt-3 '>Choose Your Ride</h2>
-            <div onClick={()=>{
+            <div onClick={() => {
+                props.setVehicalType("car")
                 props.setConfirmRideOpen(true);
                 props.setVehicalPannleOpen(false)
             }} className='flex w-full mb-1 items-center border border-transparent active:border-black rounded-xl justify-between p-3'>
@@ -15,9 +16,10 @@ const VehicalPannel = (props) => {
                     <h5 className='text-sm font-medium'>2 mins away</h5>
                     <p className='text-sm font-normal text-gray-700'>Affortable, compact rides</p>
                 </div>
-                <h2 className='text-xl font-semibold'>₹199.25</h2>
+                <h2 className='text-xl font-semibold'>₹{props.fare.car}</h2>
             </div>
-            <div onClick={()=>{
+            <div onClick={() => {
+                props.setVehicalType("moto")
                 props.setConfirmRideOpen(true);
                 props.setVehicalPannleOpen(false)
             }} className='flex w-full mb-1 items-center border border-transparent active:border-black box-border rounded-xl justify-between p-3'>
@@ -27,9 +29,10 @@ const VehicalPannel = (props) => {
                     <h5 className='text-sm font-medium'>3 mins away</h5>
                     <p className='text-sm font-normal text-gray-700'>Affortable, moto rides</p>
                 </div>
-                <h2 className='text-xl font-semibold'>₹99.25</h2>
+                <h2 className='text-xl font-semibold'>₹{props.fare.moto}</h2>
             </div>
-            <div onClick={()=>{
+            <div onClick={() => {
+                props.setVehicalType("xuv")
                 props.setConfirmRideOpen(true);
                 props.setVehicalPannleOpen(false)
             }} className='flex w-full mb-1 items-center border border-transparent active:border-black rounded-xl justify-between p-3'>
@@ -39,9 +42,10 @@ const VehicalPannel = (props) => {
                     <h5 className='text-sm font-medium'>5 mins away</h5>
                     <p className='text-sm font-normal text-gray-700'>Comfortable, xuv rides</p>
                 </div>
-                <h2 className='text-xl font-semibold'>₹299.25</h2>
+                <h2 className='text-xl font-semibold'>₹{props.fare.xuv}</h2>
             </div>
-            <div onClick={()=>{
+            <div onClick={() => {
+                props.setVehicalType("auto")
                 props.setConfirmRideOpen(true);
                 props.setVehicalPannleOpen(false)
             }} className='flex w-full  items-center border border-transparent active:border-black rounded-xl justify-between p-3'>
@@ -51,7 +55,7 @@ const VehicalPannel = (props) => {
                     <h5 className='text-sm font-medium'>1 mins away</h5>
                     <p className='text-sm font-normal text-gray-700'>Affortable, auto rides</p>
                 </div>
-                <h2 className='text-xl font-semibold'>₹159.25</h2>
+                <h2 className='text-xl font-semibold'>₹{props.fare.auto}</h2>
             </div>
         </div>
     )

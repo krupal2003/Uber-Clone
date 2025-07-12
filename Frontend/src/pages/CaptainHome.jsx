@@ -24,7 +24,7 @@ const CaptainHome = () => {
       gsap.to(ridePopUpRef.current, {
         transform: 'translateY(100%)'
       })
-    }
+    }``
   }, [ridePopUpPannel])
 
   useGSAP(() => {

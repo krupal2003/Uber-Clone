@@ -2,7 +2,7 @@ const express=require('express')
 const router=express.Router();
 const authmiddleware=require('../middlewares/auth.middleware')
 const rideController=require('../controllers/ride.contoller')
-const { body } = require('express-validator');
+const { body ,query } = require('express-validator');
 
 router.post(
     '/createride',
@@ -13,6 +13,15 @@ router.post(
     ],
     authmiddleware.authUser,
     rideController.createRide
+)
+
+router.get(
+    "/get-fare",
+    [
+        query('pickup').notEmpty().withMessage('Pickup location is required'),
+        query('destination').notEmpty().withMessage('Destination location is required')
+    ],authmiddleware.authUser,
+    rideController.getFare
 )
 
 

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { DataCaptainContext } from '../../context/CaptainContext';
+import { DataCaptainContext } from '../context/CaptainContext';
 
 const CaptainLogin = () => {
   
@@ -20,6 +20,7 @@ const CaptainLogin = () => {
       }
 
       const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, cridetials)
+
 
       if(response.status===200){
         localStorage.setItem("token", response.data.token);

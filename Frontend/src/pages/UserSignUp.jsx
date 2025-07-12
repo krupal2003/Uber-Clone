@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import { DataUserContext } from '../../context/UserContext';
+import { DataUserContext } from '../context/UserContext';
+
 
 const UserSignUp = () => {
   
@@ -13,6 +14,7 @@ const UserSignUp = () => {
   const [lastName, setLastName] = useState("");
 
   const {user,setUser}= useContext(DataUserContext);
+
 
   const submithandler = async(e) => {
     e.preventDefault();

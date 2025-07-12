@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react';
 export const DataCaptainContext = createContext();
 
 export const CaptainContext = ({ children }) => {
-    const [captain, setCaptain] = useState(null);
+    const [captain, setCaptain] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 

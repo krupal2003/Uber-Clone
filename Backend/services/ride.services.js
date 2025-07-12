@@ -42,6 +42,8 @@ async function calcFare(pickup, destination) {
 
 }
 
+module.exports.calcFare=calcFare;
+
 function getOtp(digit){
     const otp = crypto.randomInt(Math.pow(10, digit - 1), Math.pow(10, digit));
     return otp;
