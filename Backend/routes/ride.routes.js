@@ -24,6 +24,30 @@ router.get(
     rideController.getFare
 )
 
+router.post('/accept-ride',
+    [
+        body('rideId').notEmpty().withMessage('Ride ID is required'),
+        body('captainId').notEmpty().withMessage('Captain ID is required')
+    ],
+    authmiddleware.authCaptain,
+    rideController.acceptRide
+)
 
+router.get('/start-ride',
+    [
+        query('rideId').notEmpty().withMessage('Ride ID is required'),
+        query('otp').notEmpty().withMessage('OTP is required')
+    ],
+    authmiddleware.authCaptain,
+    rideController.startRide
+)
+
+router.get('/finish-ride',
+    [
+        query('rideId').notEmpty().withMessage('Ride ID is required'),
+    ],
+    authmiddleware.authCaptain,
+    rideController.finishRide
+)
 
 module.exports=router;

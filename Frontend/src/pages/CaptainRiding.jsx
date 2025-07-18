@@ -3,14 +3,19 @@ import { Link } from 'react-router-dom'
 import FinishRide from '../components/FinishRide'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import { useLocation } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking'
 
 const CaptainRiding = () => {
 
     const [finishRidePannel, setfinishRidePannel] = useState(false)
     const finishRideRef = useRef(null)
 
-
-
+    const location = useLocation();
+    const rideData = location.state?.ride;
+    // console.log("ride data in riding");
+    
+    
     useGSAP(() => {
         if (finishRidePannel) {
             gsap.to(finishRideRef.current, {
@@ -34,7 +39,7 @@ const CaptainRiding = () => {
                 </Link>
             </div>
             <div className='h-4/5'>
-                <img className='h-full w-full object-cover' src="https://storage.googleapis.com/support-forums-api/attachment/thread-146048858-12639125651610213305.PNG" alt="" />
+            <LiveTracking></LiveTracking>
             </div>
             <div onClick={()=>{
                 setfinishRidePannel(true)
@@ -43,7 +48,7 @@ const CaptainRiding = () => {
                 <button className='px-8 py-1 flex justify-center bg-green-700 rounded-lg text-lg text-white font-semibold'>Complete Ride</button>
             </div>
             <div ref={finishRideRef} className='fixed w-full translate-y-full h-screen bottom-0 z-10 px-3 py-6 bg-white' >
-                <FinishRide ></FinishRide>
+                <FinishRide rideData={rideData}></FinishRide>
             </div>
 
         </div>

@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
             }
         }).then((response) => {
             if (response.status === 200) {
-                setUser(response.data.captain);
+                setUser(response.data);
                 setIsLoading(false);
             } else {
                 navigate('/login');

@@ -31,7 +31,11 @@ const App = () => {
           </ProtectedRoute>
         }></Route>
 
-        <Route path='/riding' element={<Riding></Riding>}> </Route>
+        <Route path='/riding' element={
+          <ProtectedRoute>
+          <Riding></Riding>
+          </ProtectedRoute>
+          }> </Route>
 
         <Route path='/user/logout' element={
           <ProtectedRoute>
@@ -45,7 +49,7 @@ const App = () => {
           </CaptainProtectedRoute>
         }></Route>
 
-        <Route path='captain-riding' element={<CaptainRiding></CaptainRiding>}>
+        <Route path='/captain-riding' element={<CaptainRiding></CaptainRiding>}>
 
         </Route>
 

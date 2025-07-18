@@ -8,6 +8,11 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
 import axios from 'axios';
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import { DataUserContext } from '../context/UserContext';
+import { SocketDataContext } from '../context/SocketContext';
+import LiveTracking from '../components/LiveTracking';
 
 const DashBoard = () => {
 
@@ -41,6 +46,24 @@ const DashBoard = () => {
 
   const [waitingForDriver, setWaitingForDriver] = useState(false)
   const waitingForDriverRef = useRef(null)
+
+  const { socket } = useContext(SocketDataContext)
+  const { user } = useContext(DataUserContext)
+
+  const [ride, setride] = useState(null)
+
+
+  useEffect(() => {
+    socket.emit("join", { userType: "user", userId: user._id })
+  }, [user])
+
+
+  socket.on("ride-accepted", (data) => {
+    setride(data)
+    setWaitingForDriver(true);
+    setFoundingDriverPannel(false);
+    setConfirmRideOpen(false);
+  });
 
 
 
@@ -198,15 +221,15 @@ const DashBoard = () => {
 
   }
 
-  async function createRide(){
-    
-    const response= await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/createride`,{pickup,destination,vehicalType},{
-      headers:{
+  async function createRide() {
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/createride`, { pickup, destination, vehicalType }, {
+      headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
 
-    console.log(response.data)
+    // console.log(response.data)
   }
 
 
@@ -221,9 +244,9 @@ const DashBoard = () => {
     <div className='h-screen relative overflow-hidden'>
       <img className='w-14 absolute top-5 left-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
 
-      <div className='h-screen w-screen'>
+      <div className='h-screen w-screen z-20'>
         {/* temporary image */}
-        <img className='h-full w-full object-cover' src="https://storage.googleapis.com/support-forums-api/attachment/thread-146048858-12639125651610213305.PNG" alt="" />
+        <LiveTracking></LiveTracking>
       </div>
 
       <div className=' h-screen flex flex-col justify-end absolute top-0 w-full'>
@@ -281,7 +304,7 @@ const DashBoard = () => {
         ></ConfirmRide>
       </div>
       <div ref={foundingDriverRef} className='fixed w-full translate-y-full bottom-0 z-10 px-3 py-6 bg-white' >
-        <LookingForDriver 
+        <LookingForDriver
           pickup={pickup}
           destination={destination}
           pickupDescription={pickupDescription}
@@ -291,6 +314,12 @@ const DashBoard = () => {
           setFoundingDriverPannel={setFoundingDriverPannel}
         >
         </LookingForDriver>
+      </div>
+      <div  ref={waitingForDriverRef} className='fixed w-full translate-y-full bottom-0 z-10 px-3 py-6 bg-white' >
+        <WaitingForDriver
+          ride={ride}
+          setWaitingForDriver={setWaitingForDriver}
+        />
       </div>
 
 

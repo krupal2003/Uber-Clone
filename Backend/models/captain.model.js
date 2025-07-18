@@ -33,19 +33,19 @@ const captainSchema = new mongooes.Schema({
     },
 
     status: {
-        type: String,   
+        type: String,
         required: true,
         enum: ['active', 'inactive', 'banned'], // Example statuses
         default: 'inactive', // Default status
-    }, 
+    },
 
     vehicle: {
-       color:{
+        color: {
             type: String,
             required: true,
             minlength: [3, "Color must be at least 3 characters long"],
-       }, 
-       vehicleType: {
+        },
+        vehicleType: {
             type: String,
             required: true,
             enum: ['car', 'bike', 'auto'], // Example vehicle types
@@ -63,7 +63,30 @@ const captainSchema = new mongooes.Schema({
         },
 
     },
+
+    // location: {
+    //     type: {
+    //         type: String,
+    //         enum: ['Point'],
+    //         default: 'Point'
+    //     },
+    //     coordinates: {
+    //         type: [Number], // [lng, lat]
+    //     }
+        
+    // }
+    location: {
+        ltd: {
+            type: Number,
+        },
+        lng: {
+            type: Number,
+        }
+    }
 })
+
+captainSchema.index({ location: '2dsphere' });
+
 
 captainSchema.methods.generateAuthToken = function () {
     const token = jwt.sign(
